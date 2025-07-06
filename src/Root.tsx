@@ -17,7 +17,7 @@ export const RemotionRoot: React.FC = () => {
         schema={undefined} // This schema defines the properties for the composition
         width={1080}
         height={1920}
-        durationInFrames={300} // Aproximadamente 10 segundos a 30fps
+        durationInFrames={1800} // Aproximadamente 60 segundos a 30fps para todos los videos
         fps={30}
         defaultProps={{
           src: [
@@ -25,8 +25,14 @@ export const RemotionRoot: React.FC = () => {
             staticFile("videos/02_macro_shot_bee_on_flower_1751823879540.mp4"),
             staticFile("videos/03_bee_collecting_pollen_close_up_1751823884337.mp4"),
             staticFile("videos/04_pollen_sticking_to_bee_fur_1751823888819.mp4"),
+            staticFile("videos/05_bee_flying_between_flowers_1751823893926.mp4"),
+            staticFile("videos/06_colorful_fruits_and_vegetables_market_1751823898735.mp4"),
+            staticFile("videos/07_montage_of_different_foods_1751823904321.mp4"),
+            staticFile("videos/08_wide_shot_wild_flower_field_1751823908198.mp4"),
+            staticFile("videos/09_bird_eating_berries_from_bush_1751823914125.mp4"),
+            staticFile("videos/10_drone_shot_forest_canopy_sunrise_1751823930084.mp4"),
+            staticFile("videos/11_person_watching_bee_respectfully_1751823938591.mp4"),
           ],
-          videoDuration: 90, // Duración de cada video en frames (3 segundos a 30fps)
           transitionDuration: 15, // Duración de la transición en frames (0.5 segundos a 30fps)
         }}
       />

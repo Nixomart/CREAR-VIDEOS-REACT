@@ -3,47 +3,51 @@ import { AbsoluteFill, OffthreadVideo, useCurrentFrame, interpolate, Sequence } 
 
 export const ContinuousVideo: React.FC<{
   src: string[];
-  videoDuration?: number;
   transitionDuration?: number;
-}> = ({ src, videoDuration = 90, transitionDuration = 15 }) => {
+}> = ({ src, transitionDuration = 15 }) => {
   const frame = useCurrentFrame();
 
+  // Simplified approach: let each video play its natural duration
+  // with overlapping transitions
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       {src.map((videoSrc, index) => {
-        const startFrame = index * (videoDuration - transitionDuration);
-        const endFrame = startFrame + videoDuration;
+        // Calculate start frame with overlap for transitions
+        const startFrame = index === 0 ? 0 : index * 120 - (index * transitionDuration);
         
-        // Calculate fade in and fade out
+        // Calculate fade transitions
         const fadeInStart = startFrame;
-        const fadeInEnd = startFrame + transitionDuration;
-        const fadeOutStart = endFrame - transitionDuration;
-        const fadeOutEnd = endFrame;
+        const fadeInEnd = startFrame + (index === 0 ? 0 : transitionDuration);
         
         let opacity = 1;
         
-        if (frame >= fadeInStart && frame <= fadeInEnd) {
-          // Fade in
+        // Only apply fade in for videos after the first one
+        if (index > 0 && frame >= fadeInStart && frame <= fadeInEnd) {
           opacity = interpolate(frame, [fadeInStart, fadeInEnd], [0, 1], {
             extrapolateLeft: 'clamp',
             extrapolateRight: 'clamp',
           });
-        } else if (frame >= fadeOutStart && frame <= fadeOutEnd) {
-          // Fade out
-          opacity = interpolate(frame, [fadeOutStart, fadeOutEnd], [1, 0], {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-          });
-        } else if (frame < fadeInStart || frame > fadeOutEnd) {
-          // Outside video range
-          opacity = 0;
+        }
+        
+        // Apply fade out for all videos except the last one
+        // We'll calculate this based on when the next video should start fading in
+        if (index < src.length - 1) {
+          const nextVideoStart = (index + 1) === 0 ? 0 : (index + 1) * 120 - ((index + 1) * transitionDuration);
+          const fadeOutStart = nextVideoStart;
+          const fadeOutEnd = nextVideoStart + transitionDuration;
+          
+          if (frame >= fadeOutStart && frame <= fadeOutEnd) {
+            opacity = interpolate(frame, [fadeOutStart, fadeOutEnd], [1, 0], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+            });
+          }
         }
 
         return (
           <Sequence
             key={index}
             from={startFrame}
-            durationInFrames={videoDuration}
           >
             <AbsoluteFill
               style={{
