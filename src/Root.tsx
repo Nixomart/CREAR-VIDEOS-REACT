@@ -6,6 +6,7 @@ import {
 } from "./CaptionedVideo";
 import { ContinuousVideo } from "./ContinuousVideo";
 import { continuousVideoSchema } from "./ContinuousVideo/schema";
+import { calculateContinuousVideoMetadata } from "./ContinuousVideo/calculateMetadata";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -16,9 +17,10 @@ export const RemotionRoot: React.FC = () => {
         id="ContinuousVideo"
         component={ContinuousVideo}
         schema={continuousVideoSchema}
+        calculateMetadata={calculateContinuousVideoMetadata}
         width={1080}
         height={1920}
-        durationInFrames={1800} // Aproximadamente 60 segundos a 30fps para todos los videos
+        durationInFrames={1800} // Duración por defecto, se calculará dinámicamente
         fps={30}
         defaultProps={{
           src: [

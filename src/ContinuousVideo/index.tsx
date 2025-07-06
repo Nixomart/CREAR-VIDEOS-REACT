@@ -13,6 +13,7 @@ import {
   getStaticFiles,
   watchStaticFile
 } from 'remotion'
+import { getVideoMetadata } from '@remotion/media-utils'
 import { Caption, createTikTokStyleCaptions } from '@remotion/captions'
 import { loadFont } from '../load-font'
 import SubtitlePage from '../CaptionedVideo/SubtitlePage'
@@ -60,6 +61,8 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
   const [subtitles, setSubtitles] = useState<Caption[]>([]);
   const [handle] = useState(() => delayRender());
   const [audioError, setAudioError] = useState<string | null>(null);
+  const [videoDurations, setVideoDurations] = useState<number[]>([]);
+  const [metadataHandle] = useState(() => delayRender());
 
   const fetchSubtitles = useCallback(async () => {
     if (!subtitlesJsonSrc) {
@@ -79,6 +82,33 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
     }
   }, [handle, subtitlesJsonSrc]);
 
+  // Función para obtener metadatos de todos los videos
+  const fetchVideoMetadata = useCallback(async () => {
+    try {
+      const durations: number[] = [];
+      
+      for (const videoSrc of src) {
+        try {
+          const metadata = await getVideoMetadata(videoSrc);
+          const durationInFrames = Math.round(metadata.durationInSeconds * fps);
+          durations.push(durationInFrames);
+        } catch (error) {
+          console.warn(`Error getting metadata for ${videoSrc}:`, error);
+          // Usar duración por defecto si no se puede obtener metadata
+          durations.push(120); // 4 segundos a 30fps como fallback
+        }
+      }
+      
+      setVideoDurations(durations);
+      continueRender(metadataHandle);
+    } catch (error) {
+      console.error('Error fetching video metadata:', error);
+      // Usar duraciones por defecto
+      setVideoDurations(src.map(() => 120));
+      continueRender(metadataHandle);
+    }
+  }, [src, fps, metadataHandle]);
+
   useEffect(() => {
     fetchSubtitles();
 
@@ -93,6 +123,26 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
     }
   }, [fetchSubtitles, subtitlesJsonSrc]);
 
+  // Efecto para cargar metadatos de videos
+  useEffect(() => {
+    fetchVideoMetadata();
+  }, [fetchVideoMetadata]);
+
+  // Calcular frames de inicio acumulativos basados en duraciones reales
+  const videoStartFrames = useMemo(() => {
+    if (videoDurations.length === 0) return [];
+    
+    const startFrames: number[] = [0]; // El primer video siempre empieza en 0
+    
+    for (let i = 1; i < videoDurations.length; i++) {
+      // El siguiente video empieza donde termina el anterior, menos la duración de transición
+      const previousEnd = startFrames[i - 1] + videoDurations[i - 1];
+      startFrames.push(previousEnd - transitionDuration);
+    }
+    
+    return startFrames;
+  }, [videoDurations, transitionDuration]);
+
   const { pages } = useMemo(() => {
     return createTikTokStyleCaptions({
       combineTokensWithinMilliseconds: SWITCH_CAPTIONS_EVERY_MS,
@@ -102,6 +152,24 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
+      {/* Mostrar indicador de carga si los metadatos no están listos */}
+      {videoDurations.length === 0 && (
+        <AbsoluteFill
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            fontSize: 24,
+            fontFamily: "sans-serif",
+            color: "white",
+            textAlign: "center",
+            zIndex: 1000,
+          }}
+        >
+          Loading video metadata...
+        </AbsoluteFill>
+      )}
+
       {/* Audio de fondo con manejo de errores */}
       {audioSrc && getFileExists(audioSrc) && (
         <Audio 
@@ -155,8 +223,13 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
       
       {/* Videos con transiciones */}
       {src.map((videoSrc, index) => {
-        // Calculate start frame with overlap for transitions
-        const startFrame = index === 0 ? 0 : index * 120 - (index * transitionDuration);
+        // Si aún no tenemos las duraciones, no renderizar
+        if (videoDurations.length === 0 || videoStartFrames.length === 0) {
+          return null;
+        }
+
+        const startFrame = videoStartFrames[index] || 0;
+        const videoDuration = videoDurations[index] || 120;
         
         // Calculate fade transitions
         const fadeInStart = startFrame;
@@ -173,9 +246,8 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
         }
         
         // Apply fade out for all videos except the last one
-        // We'll calculate this based on when the next video should start fading in
         if (index < src.length - 1) {
-          const nextVideoStart = (index + 1) === 0 ? 0 : (index + 1) * 120 - ((index + 1) * transitionDuration);
+          const nextVideoStart = videoStartFrames[index + 1] || startFrame + videoDuration;
           const fadeOutStart = nextVideoStart;
           const fadeOutEnd = nextVideoStart + transitionDuration;
           
@@ -191,6 +263,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
           <Sequence
             key={index}
             from={startFrame}
+            durationInFrames={videoDuration}
           >
             <AbsoluteFill
               style={{
