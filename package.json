@@ -8,8 +8,7 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "generate": "remotion render src/index.ts CaptionedVideo public/video.mp4 --codec h264 --crf 23",
-    "create-subtitles": "node sub.mjs",
-    "fix-audio": "node fix-audio.js"
+    "create-subtitles": "node sub.mjs"
   },
   "repository": {},
   "license": "UNLICENSED",

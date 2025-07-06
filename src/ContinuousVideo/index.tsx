@@ -18,6 +18,7 @@ import { Caption, createTikTokStyleCaptions } from '@remotion/captions'
 import { loadFont } from '../load-font'
 import SubtitlePage from '../CaptionedVideo/SubtitlePage'
 import { ContinuousVideoProps } from './schema'
+import { autoDetectFiles } from '../utils/autoDetectFiles'
 
 const getFileExists = (file: string) => {
   const files = getStaticFiles();
@@ -51,19 +52,38 @@ const convertToCaption = (data: OriginalSubtitle[]): Caption[] => {
 const SWITCH_CAPTIONS_EVERY_MS = 1200;
 
 export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({ 
-  src, 
+  src: propSrc, 
   transitionDuration = 15, 
-  audioSrc, 
-  subtitlesJsonSrc 
+  audioSrc: propAudioSrc, 
+  subtitlesJsonSrc: propSubtitlesJsonSrc,
+  autoDetect = true
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const [subtitles, setSubtitles] = useState<Caption[]>([]);
   const [handle] = useState(() => delayRender());
-  const [audioError, setAudioError] = useState<string | null>(null);
+  const [audioError] = useState<string | null>(null);
   const [videoDurations, setVideoDurations] = useState<number[]>([]);
   const [metadataHandle] = useState(() => delayRender());
 
+  // Auto-detectar archivos si autoDetect está habilitado y no se proporcionan manualmente
+  const detectedFiles = useMemo(() => {
+    if (autoDetect) {
+      return autoDetectFiles();
+    }
+    return { videos: [], audio: undefined, subtitles: undefined };
+  }, [autoDetect]);
+
+  // Usar archivos proporcionados o auto-detectados
+  const src = propSrc && propSrc.length > 0 ? propSrc : detectedFiles.videos;
+  const audioSrc = propAudioSrc || detectedFiles.audio;
+  const subtitlesJsonSrc = propSubtitlesJsonSrc || detectedFiles.subtitles;
+  console.log("DETECTED FILES:", {
+    videos: src,
+    audio: audioSrc,
+    subtitles: subtitlesJsonSrc,
+  });
+  
   const fetchSubtitles = useCallback(async () => {
     if (!subtitlesJsonSrc) {
       continueRender(handle);
@@ -152,6 +172,31 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
+      {/* Mostrar información de auto-detección si está habilitada */}
+      {autoDetect && (
+        <AbsoluteFill
+          style={{
+            height: "auto",
+            width: "100%",
+            backgroundColor: "rgba(0, 100, 0, 0.8)",
+            fontSize: 16,
+            padding: 10,
+            top: 0,
+            fontFamily: "sans-serif",
+            color: "white",
+            textAlign: "left",
+            zIndex: 1000,
+            opacity: frame < 90 ? 1 : 0, // Mostrar solo los primeros 3 segundos
+            transition: "opacity 0.5s",
+          }}
+        >
+          📁 Auto-detected files:<br/>
+          🎬 Videos: {src.length} files<br/>
+          🎵 Audio: {audioSrc ? '✅' : '❌'}<br/>
+          📝 Subtitles: {subtitlesJsonSrc ? '✅' : '❌'}
+        </AbsoluteFill>
+      )}
+
       {/* Mostrar indicador de carga si los metadatos no están listos */}
       {videoDurations.length === 0 && (
         <AbsoluteFill

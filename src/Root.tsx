@@ -1,9 +1,4 @@
-import { Composition, staticFile } from "remotion";
-import {
-  CaptionedVideo,
-  calculateCaptionedVideoMetadata,
-  captionedVideoSchema,
-} from "./CaptionedVideo";
+import { Composition } from "remotion";
 import { ContinuousVideo } from "./ContinuousVideo";
 import { continuousVideoSchema } from "./ContinuousVideo/schema";
 import { calculateContinuousVideoMetadata } from "./ContinuousVideo/calculateMetadata";
@@ -23,6 +18,13 @@ export const RemotionRoot: React.FC = () => {
         durationInFrames={1800} // Duración por defecto, se calculará dinámicamente
         fps={30}
         defaultProps={{
+          // Con autoDetect: true, no necesitamos especificar archivos manualmente
+          // Los archivos se detectarán automáticamente de public/videos y public/audio
+          autoDetect: true,
+          transitionDuration: 15, // Duración de la transición en frames (0.5 segundos a 30fps)
+          
+          // Opcional: Si quieres especificar archivos manualmente, descomenta las siguientes líneas:
+          /*
           src: [
             staticFile("videos/01_bee_flying_slow_motion_1751823874243.mp4"),
             staticFile("videos/02_macro_shot_bee_on_flower_1751823879540.mp4"),
@@ -36,12 +38,12 @@ export const RemotionRoot: React.FC = () => {
             staticFile("videos/10_drone_shot_forest_canopy_sunrise_1751823930084.mp4"),
             staticFile("videos/11_person_watching_bee_respectfully_1751823938591.mp4"),
           ],
-          audioSrc: staticFile("audio/tts_1751823872736.mp3"), // Comentado temporalmente por problemas de formato
+          audioSrc: staticFile("audio/tts_1751823872736.mp3"),
           subtitlesJsonSrc: staticFile("audio/converted_tts_1751823872736.json"),
-          transitionDuration: 15, // Duración de la transición en frames (0.5 segundos a 30fps)
+          */
         }}
       />
-      <Composition
+      {/* <Composition
         id="CaptionedVideo"
         component={CaptionedVideo}
         calculateMetadata={calculateCaptionedVideoMetadata}
@@ -51,7 +53,7 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{
           src: staticFile("sample-video.mp4"),
         }}
-      />
+      /> */}
     </>
   );
 };
