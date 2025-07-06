@@ -1,0 +1,1101 @@
+[
+  {
+    "text": "Y",
+    "startMs": 60,
+    "endMs": 100,
+    "timestampMs": 240,
+    "confidence": 0.692245
+  },
+  {
+    "text": " si",
+    "startMs": 100,
+    "endMs": 290,
+    "timestampMs": 380,
+    "confidence": 0.974163
+  },
+  {
+    "text": " los",
+    "startMs": 290,
+    "endMs": 390,
+    "timestampMs": 640,
+    "confidence": 0.9936
+  },
+  {
+    "text": " trabajadores",
+    "startMs": 390,
+    "endMs": 1250,
+    "timestampMs": 1040,
+    "confidence": 0.992197
+  },
+  {
+    "text": " más",
+    "startMs": 1250,
+    "endMs": 1510,
+    "timestampMs": 1640,
+    "confidence": 0.949477
+  },
+  {
+    "text": " importantes",
+    "startMs": 1510,
+    "endMs": 2200,
+    "timestampMs": 2140,
+    "confidence": 0.990792
+  },
+  {
+    "text": " del",
+    "startMs": 2200,
+    "endMs": 2400,
+    "timestampMs": 2360,
+    "confidence": 0.98923
+  },
+  {
+    "text": " planeta",
+    "startMs": 2400,
+    "endMs": 2870,
+    "timestampMs": 2780,
+    "confidence": 0.974061
+  },
+  {
+    "text": " fueran",
+    "startMs": 2870,
+    "endMs": 3270,
+    "timestampMs": 3080,
+    "confidence": 0.948007
+  },
+  {
+    "text": " diminutos,",
+    "startMs": 3270,
+    "endMs": 4120,
+    "timestampMs": 3500,
+    "confidence": 0.974285
+  },
+  {
+    "text": " peludos",
+    "startMs": 4120,
+    "endMs": 4480,
+    "timestampMs": 4320,
+    "confidence": 0.907701
+  },
+  {
+    "text": " y",
+    "startMs": 4480,
+    "endMs": 4600,
+    "timestampMs": 4780,
+    "confidence": 0.869724
+  },
+  {
+    "text": " trabajarán",
+    "startMs": 4600,
+    "endMs": 5200,
+    "timestampMs": 5120,
+    "confidence": 0.867266
+  },
+  {
+    "text": " a",
+    "startMs": 5200,
+    "endMs": 5390,
+    "timestampMs": 5440,
+    "confidence": 0.99489
+  },
+  {
+    "text": " cambio",
+    "startMs": 5390,
+    "endMs": 5940,
+    "timestampMs": 5680,
+    "confidence": 0.998563
+  },
+  {
+    "text": " de",
+    "startMs": 5940,
+    "endMs": 6140,
+    "timestampMs": 5980,
+    "confidence": 0.998803
+  },
+  {
+    "text": " flores.",
+    "startMs": 6140,
+    "endMs": 7140,
+    "timestampMs": 6080,
+    "confidence": 0.997522
+  },
+  {
+    "text": " Conoce",
+    "startMs": 7140,
+    "endMs": 7640,
+    "timestampMs": 7460,
+    "confidence": 0.946748
+  },
+  {
+    "text": " a",
+    "startMs": 7640,
+    "endMs": 7720,
+    "timestampMs": 7760,
+    "confidence": 0.996485
+  },
+  {
+    "text": " las",
+    "startMs": 7720,
+    "endMs": 7970,
+    "timestampMs": 7940,
+    "confidence": 0.991968
+  },
+  {
+    "text": " abejas,",
+    "startMs": 7970,
+    "endMs": 8680,
+    "timestampMs": 8140,
+    "confidence": 0.895822
+  },
+  {
+    "text": " las",
+    "startMs": 8680,
+    "endMs": 8950,
+    "timestampMs": 8960,
+    "confidence": 0.982092
+  },
+  {
+    "text": " polinizadoras",
+    "startMs": 8950,
+    "endMs": 10040,
+    "timestampMs": 9200,
+    "confidence": 0.962069
+  },
+  {
+    "text": " maestras",
+    "startMs": 10040,
+    "endMs": 10660,
+    "timestampMs": 10080,
+    "confidence": 0.980191
+  },
+  {
+    "text": " de",
+    "startMs": 10660,
+    "endMs": 10830,
+    "timestampMs": 10400,
+    "confidence": 0.997965
+  },
+  {
+    "text": " la",
+    "startMs": 10830,
+    "endMs": 10920,
+    "timestampMs": 10640,
+    "confidence": 0.997874
+  },
+  {
+    "text": " naturaleza.",
+    "startMs": 10920,
+    "endMs": 12000,
+    "timestampMs": 10980,
+    "confidence": 0.957207
+  },
+  {
+    "text": " Su",
+    "startMs": 12000,
+    "endMs": 12160,
+    "timestampMs": 12280,
+    "confidence": 0.991658
+  },
+  {
+    "text": " misión",
+    "startMs": 12160,
+    "endMs": 12760,
+    "timestampMs": 12480,
+    "confidence": 0.93005
+  },
+  {
+    "text": " es",
+    "startMs": 12760,
+    "endMs": 12930,
+    "timestampMs": 12820,
+    "confidence": 0.998822
+  },
+  {
+    "text": " simple",
+    "startMs": 12930,
+    "endMs": 13370,
+    "timestampMs": 13040,
+    "confidence": 0.997794
+  },
+  {
+    "text": " pero",
+    "startMs": 13370,
+    "endMs": 14090,
+    "timestampMs": 13320,
+    "confidence": 0.957664
+  },
+  {
+    "text": " vital,",
+    "startMs": 14090,
+    "endMs": 14280,
+    "timestampMs": 13720,
+    "confidence": 0.995731
+  },
+  {
+    "text": " transportar",
+    "startMs": 14280,
+    "endMs": 15170,
+    "timestampMs": 14660,
+    "confidence": 0.979598
+  },
+  {
+    "text": " polen",
+    "startMs": 15170,
+    "endMs": 15570,
+    "timestampMs": 15020,
+    "confidence": 0.796101
+  },
+  {
+    "text": " de",
+    "startMs": 15570,
+    "endMs": 15730,
+    "timestampMs": 15320,
+    "confidence": 0.998148
+  },
+  {
+    "text": " una",
+    "startMs": 15730,
+    "endMs": 16010,
+    "timestampMs": 15580,
+    "confidence": 0.998133
+  },
+  {
+    "text": " flor",
+    "startMs": 16010,
+    "endMs": 16380,
+    "timestampMs": 15740,
+    "confidence": 0.946304
+  },
+  {
+    "text": " a",
+    "startMs": 16380,
+    "endMs": 16380,
+    "timestampMs": 15920,
+    "confidence": 0.998605
+  },
+  {
+    "text": " otra.",
+    "startMs": 16380,
+    "endMs": 17040,
+    "timestampMs": 16280,
+    "confidence": 0.998331
+  },
+  {
+    "text": " Mientras",
+    "startMs": 17040,
+    "endMs": 17630,
+    "timestampMs": 17260,
+    "confidence": 0.997784
+  },
+  {
+    "text": " buscan",
+    "startMs": 17630,
+    "endMs": 18150,
+    "timestampMs": 17820,
+    "confidence": 0.958506
+  },
+  {
+    "text": " néctar,",
+    "startMs": 18150,
+    "endMs": 18720,
+    "timestampMs": 18080,
+    "confidence": 0.871718
+  },
+  {
+    "text": " el",
+    "startMs": 18720,
+    "endMs": 18860,
+    "timestampMs": 18880,
+    "confidence": 0.997657
+  },
+  {
+    "text": " polen",
+    "startMs": 18860,
+    "endMs": 19220,
+    "timestampMs": 19060,
+    "confidence": 0.995497
+  },
+  {
+    "text": " se",
+    "startMs": 19220,
+    "endMs": 19360,
+    "timestampMs": 19320,
+    "confidence": 0.999081
+  },
+  {
+    "text": " adhiere",
+    "startMs": 19360,
+    "endMs": 19930,
+    "timestampMs": 19480,
+    "confidence": 0.992072
+  },
+  {
+    "text": " a",
+    "startMs": 19930,
+    "endMs": 19940,
+    "timestampMs": 19740,
+    "confidence": 0.998765
+  },
+  {
+    "text": " sus",
+    "startMs": 19940,
+    "endMs": 20160,
+    "timestampMs": 19940,
+    "confidence": 0.994325
+  },
+  {
+    "text": " cuerpos",
+    "startMs": 20160,
+    "endMs": 20680,
+    "timestampMs": 20200,
+    "confidence": 0.982068
+  },
+  {
+    "text": " como",
+    "startMs": 20680,
+    "endMs": 20950,
+    "timestampMs": 20600,
+    "confidence": 0.987046
+  },
+  {
+    "text": " si",
+    "startMs": 20950,
+    "endMs": 21130,
+    "timestampMs": 20900,
+    "confidence": 0.998784
+  },
+  {
+    "text": " fuera",
+    "startMs": 21130,
+    "endMs": 21460,
+    "timestampMs": 21060,
+    "confidence": 0.996246
+  },
+  {
+    "text": " polvo",
+    "startMs": 21460,
+    "endMs": 21820,
+    "timestampMs": 21320,
+    "confidence": 0.975441
+  },
+  {
+    "text": " mágico.",
+    "startMs": 21820,
+    "endMs": 22720,
+    "timestampMs": 21660,
+    "confidence": 0.993816
+  },
+  {
+    "text": " Al",
+    "startMs": 22720,
+    "endMs": 22850,
+    "timestampMs": 22940,
+    "confidence": 0.996204
+  },
+  {
+    "text": " visitar",
+    "startMs": 22850,
+    "endMs": 23310,
+    "timestampMs": 23280,
+    "confidence": 0.997554
+  },
+  {
+    "text": " la",
+    "startMs": 23310,
+    "endMs": 23440,
+    "timestampMs": 23540,
+    "confidence": 0.996493
+  },
+  {
+    "text": " siguiente",
+    "startMs": 23440,
+    "endMs": 24030,
+    "timestampMs": 24000,
+    "confidence": 0.99779
+  },
+  {
+    "text": " flor,",
+    "startMs": 24030,
+    "endMs": 24570,
+    "timestampMs": 24300,
+    "confidence": 0.996077
+  },
+  {
+    "text": " entregan",
+    "startMs": 24570,
+    "endMs": 24960,
+    "timestampMs": 24980,
+    "confidence": 0.986549
+  },
+  {
+    "text": " este",
+    "startMs": 24960,
+    "endMs": 25250,
+    "timestampMs": 25360,
+    "confidence": 0.967578
+  },
+  {
+    "text": " regalo",
+    "startMs": 25250,
+    "endMs": 25620,
+    "timestampMs": 25640,
+    "confidence": 0.96456
+  },
+  {
+    "text": " dorado,",
+    "startMs": 25620,
+    "endMs": 26490,
+    "timestampMs": 25980,
+    "confidence": 0.992422
+  },
+  {
+    "text": " permitiendo",
+    "startMs": 26490,
+    "endMs": 26880,
+    "timestampMs": 26920,
+    "confidence": 0.97718
+  },
+  {
+    "text": " la",
+    "startMs": 26880,
+    "endMs": 27010,
+    "timestampMs": 27320,
+    "confidence": 0.997056
+  },
+  {
+    "text": " fertilización",
+    "startMs": 27010,
+    "endMs": 28000,
+    "timestampMs": 27700,
+    "confidence": 0.997407
+  },
+  {
+    "text": " y",
+    "startMs": 28000,
+    "endMs": 28090,
+    "timestampMs": 28080,
+    "confidence": 0.999718
+  },
+  {
+    "text": " creación",
+    "startMs": 28090,
+    "endMs": 28990,
+    "timestampMs": 28460,
+    "confidence": 0.999445
+  },
+  {
+    "text": " de",
+    "startMs": 28990,
+    "endMs": 29170,
+    "timestampMs": 28860,
+    "confidence": 0.999672
+  },
+  {
+    "text": " frutos",
+    "startMs": 29170,
+    "endMs": 29710,
+    "timestampMs": 29060,
+    "confidence": 0.9964
+  },
+  {
+    "text": " y",
+    "startMs": 29710,
+    "endMs": 29810,
+    "timestampMs": 29360,
+    "confidence": 0.99934
+  },
+  {
+    "text": " semillas.",
+    "startMs": 29810,
+    "endMs": 30960,
+    "timestampMs": 29660,
+    "confidence": 0.996457
+  },
+  {
+    "text": " Este",
+    "startMs": 30960,
+    "endMs": 31290,
+    "timestampMs": 31100,
+    "confidence": 0.994268
+  },
+  {
+    "text": " simple",
+    "startMs": 31290,
+    "endMs": 31720,
+    "timestampMs": 31440,
+    "confidence": 0.997474
+  },
+  {
+    "text": " acto",
+    "startMs": 31720,
+    "endMs": 32070,
+    "timestampMs": 31680,
+    "confidence": 0.994814
+  },
+  {
+    "text": " es",
+    "startMs": 32070,
+    "endMs": 32150,
+    "timestampMs": 31940,
+    "confidence": 0.997881
+  },
+  {
+    "text": " responsable",
+    "startMs": 32150,
+    "endMs": 32980,
+    "timestampMs": 32460,
+    "confidence": 0.978763
+  },
+  {
+    "text": " de",
+    "startMs": 32980,
+    "endMs": 33200,
+    "timestampMs": 32780,
+    "confidence": 0.999226
+  },
+  {
+    "text": " casi",
+    "startMs": 33200,
+    "endMs": 33430,
+    "timestampMs": 33020,
+    "confidence": 0.999043
+  },
+  {
+    "text": " un",
+    "startMs": 33430,
+    "endMs": 33580,
+    "timestampMs": 33240,
+    "confidence": 0.905878
+  },
+  {
+    "text": " tercio",
+    "startMs": 33580,
+    "endMs": 34020,
+    "timestampMs": 33460,
+    "confidence": 0.991747
+  },
+  {
+    "text": " de",
+    "startMs": 34020,
+    "endMs": 34170,
+    "timestampMs": 33800,
+    "confidence": 0.999386
+  },
+  {
+    "text": " toda",
+    "startMs": 34170,
+    "endMs": 34520,
+    "timestampMs": 33980,
+    "confidence": 0.996907
+  },
+  {
+    "text": " la",
+    "startMs": 34520,
+    "endMs": 34670,
+    "timestampMs": 34220,
+    "confidence": 0.99907
+  },
+  {
+    "text": " comida",
+    "startMs": 34670,
+    "endMs": 35070,
+    "timestampMs": 34460,
+    "confidence": 0.99878
+  },
+  {
+    "text": " que",
+    "startMs": 35070,
+    "endMs": 35280,
+    "timestampMs": 34880,
+    "confidence": 0.999188
+  },
+  {
+    "text": " consumimos.",
+    "startMs": 35280,
+    "endMs": 36360,
+    "timestampMs": 35060,
+    "confidence": 0.999344
+  },
+  {
+    "text": " Sin",
+    "startMs": 36360,
+    "endMs": 36620,
+    "timestampMs": 36540,
+    "confidence": 0.998247
+  },
+  {
+    "text": " ellas,",
+    "startMs": 36620,
+    "endMs": 37270,
+    "timestampMs": 37060,
+    "confidence": 0.986527
+  },
+  {
+    "text": " dile",
+    "startMs": 37270,
+    "endMs": 37640,
+    "timestampMs": 37480,
+    "confidence": 0.947838
+  },
+  {
+    "text": " a",
+    "startMs": 37640,
+    "endMs": 37790,
+    "timestampMs": 37620,
+    "confidence": 0.40016
+  },
+  {
+    "text": " Dios",
+    "startMs": 37790,
+    "endMs": 38100,
+    "timestampMs": 37780,
+    "confidence": 0.93816
+  },
+  {
+    "text": " a",
+    "startMs": 38100,
+    "endMs": 38190,
+    "timestampMs": 37920,
+    "confidence": 0.995444
+  },
+  {
+    "text": " las",
+    "startMs": 38190,
+    "endMs": 38460,
+    "timestampMs": 38100,
+    "confidence": 0.998361
+  },
+  {
+    "text": " manzanas,",
+    "startMs": 38460,
+    "endMs": 39360,
+    "timestampMs": 38340,
+    "confidence": 0.998965
+  },
+  {
+    "text": " almendras,",
+    "startMs": 39360,
+    "endMs": 40350,
+    "timestampMs": 39340,
+    "confidence": 0.998689
+  },
+  {
+    "text": " calabazas,",
+    "startMs": 40350,
+    "endMs": 41350,
+    "timestampMs": 40260,
+    "confidence": 0.991696
+  },
+  {
+    "text": " e",
+    "startMs": 41350,
+    "endMs": 41440,
+    "timestampMs": 41220,
+    "confidence": 0.994602
+  },
+  {
+    "text": " incluso",
+    "startMs": 41440,
+    "endMs": 42090,
+    "timestampMs": 41600,
+    "confidence": 0.998094
+  },
+  {
+    "text": " al",
+    "startMs": 42090,
+    "endMs": 42730,
+    "timestampMs": 41840,
+    "confidence": 0.989587
+  },
+  {
+    "text": " café.",
+    "startMs": 42730,
+    "endMs": 43160,
+    "timestampMs": 42180,
+    "confidence": 0.989668
+  },
+  {
+    "text": " Pero",
+    "startMs": 43160,
+    "endMs": 43480,
+    "timestampMs": 43240,
+    "confidence": 0.991991
+  },
+  {
+    "text": " su",
+    "startMs": 43480,
+    "endMs": 43720,
+    "timestampMs": 43420,
+    "confidence": 0.997284
+  },
+  {
+    "text": " trabajo",
+    "startMs": 43720,
+    "endMs": 44200,
+    "timestampMs": 43800,
+    "confidence": 0.998155
+  },
+  {
+    "text": " no",
+    "startMs": 44200,
+    "endMs": 44360,
+    "timestampMs": 44060,
+    "confidence": 0.993081
+  },
+  {
+    "text": " termina",
+    "startMs": 44360,
+    "endMs": 44920,
+    "timestampMs": 44360,
+    "confidence": 0.998083
+  },
+  {
+    "text": " en",
+    "startMs": 44920,
+    "endMs": 45080,
+    "timestampMs": 44620,
+    "confidence": 0.999123
+  },
+  {
+    "text": " nuestras",
+    "startMs": 45080,
+    "endMs": 46040,
+    "timestampMs": 45060,
+    "confidence": 0.9931
+  },
+  {
+    "text": " granjas.",
+    "startMs": 46040,
+    "endMs": 46560,
+    "timestampMs": 45380,
+    "confidence": 0.95403
+  },
+  {
+    "text": " Al",
+    "startMs": 46560,
+    "endMs": 46700,
+    "timestampMs": 46660,
+    "confidence": 0.99685
+  },
+  {
+    "text": " polinizar",
+    "startMs": 46700,
+    "endMs": 47330,
+    "timestampMs": 46880,
+    "confidence": 0.992769
+  },
+  {
+    "text": " plantas",
+    "startMs": 47330,
+    "endMs": 47830,
+    "timestampMs": 47560,
+    "confidence": 0.993492
+  },
+  {
+    "text": " silvestres,",
+    "startMs": 47830,
+    "endMs": 48700,
+    "timestampMs": 47900,
+    "confidence": 0.989143
+  },
+  {
+    "text": " sostienen",
+    "startMs": 48700,
+    "endMs": 49320,
+    "timestampMs": 48980,
+    "confidence": 0.988998
+  },
+  {
+    "text": " ecosistemas",
+    "startMs": 49320,
+    "endMs": 50120,
+    "timestampMs": 49540,
+    "confidence": 0.99682
+  },
+  {
+    "text": " enteros,",
+    "startMs": 50120,
+    "endMs": 50770,
+    "timestampMs": 50340,
+    "confidence": 0.995843
+  },
+  {
+    "text": " alimentando",
+    "startMs": 50770,
+    "endMs": 51520,
+    "timestampMs": 51280,
+    "confidence": 0.998355
+  },
+  {
+    "text": " a",
+    "startMs": 51520,
+    "endMs": 51590,
+    "timestampMs": 51660,
+    "confidence": 0.998612
+  },
+  {
+    "text": " aves,",
+    "startMs": 51590,
+    "endMs": 52150,
+    "timestampMs": 51720,
+    "confidence": 0.981087
+  },
+  {
+    "text": " osos",
+    "startMs": 52150,
+    "endMs": 52440,
+    "timestampMs": 52420,
+    "confidence": 0.921789
+  },
+  {
+    "text": " y",
+    "startMs": 52440,
+    "endMs": 52570,
+    "timestampMs": 52680,
+    "confidence": 0.993597
+  },
+  {
+    "text": " otros",
+    "startMs": 52570,
+    "endMs": 53220,
+    "timestampMs": 52980,
+    "confidence": 0.998277
+  },
+  {
+    "text": " animales.",
+    "startMs": 53220,
+    "endMs": 54680,
+    "timestampMs": 53540,
+    "confidence": 0.996789
+  },
+  {
+    "text": " Son",
+    "startMs": 54680,
+    "endMs": 54890,
+    "timestampMs": 54680,
+    "confidence": 0.217978
+  },
+  {
+    "text": " las",
+    "startMs": 54890,
+    "endMs": 55060,
+    "timestampMs": 54940,
+    "confidence": 0.997839
+  },
+  {
+    "text": " ingenieras",
+    "startMs": 55060,
+    "endMs": 55770,
+    "timestampMs": 55280,
+    "confidence": 0.9724
+  },
+  {
+    "text": " silenciosas",
+    "startMs": 55770,
+    "endMs": 56420,
+    "timestampMs": 55860,
+    "confidence": 0.995571
+  },
+  {
+    "text": " que",
+    "startMs": 56420,
+    "endMs": 56610,
+    "timestampMs": 56380,
+    "confidence": 0.997965
+  },
+  {
+    "text": " mantienen",
+    "startMs": 56610,
+    "endMs": 57180,
+    "timestampMs": 56680,
+    "confidence": 0.996622
+  },
+  {
+    "text": " la",
+    "startMs": 57180,
+    "endMs": 57380,
+    "timestampMs": 57000,
+    "confidence": 0.999371
+  },
+  {
+    "text": " biodiversidad",
+    "startMs": 57380,
+    "endMs": 58210,
+    "timestampMs": 57220,
+    "confidence": 0.998005
+  },
+  {
+    "text": " de",
+    "startMs": 58210,
+    "endMs": 58290,
+    "timestampMs": 57940,
+    "confidence": 0.981564
+  },
+  {
+    "text": " nuestros",
+    "startMs": 58290,
+    "endMs": 58810,
+    "timestampMs": 58220,
+    "confidence": 0.9939
+  },
+  {
+    "text": " bosques",
+    "startMs": 58810,
+    "endMs": 59130,
+    "timestampMs": 58480,
+    "confidence": 0.99239
+  },
+  {
+    "text": " y",
+    "startMs": 59130,
+    "endMs": 59320,
+    "timestampMs": 58820,
+    "confidence": 0.997291
+  },
+  {
+    "text": " praderas.",
+    "startMs": 59320,
+    "endMs": 60160,
+    "timestampMs": 58960,
+    "confidence": 0.994856
+  },
+  {
+    "text": " Así",
+    "startMs": 60160,
+    "endMs": 60520,
+    "timestampMs": 60460,
+    "confidence": 0.972836
+  },
+  {
+    "text": " que",
+    "startMs": 60520,
+    "endMs": 60660,
+    "timestampMs": 60660,
+    "confidence": 0.999619
+  },
+  {
+    "text": " la",
+    "startMs": 60660,
+    "endMs": 60800,
+    "timestampMs": 60880,
+    "confidence": 0.997866
+  },
+  {
+    "text": " próxima",
+    "startMs": 60800,
+    "endMs": 61490,
+    "timestampMs": 61240,
+    "confidence": 0.973684
+  },
+  {
+    "text": " vez",
+    "startMs": 61490,
+    "endMs": 61590,
+    "timestampMs": 61480,
+    "confidence": 0.994788
+  },
+  {
+    "text": " que",
+    "startMs": 61590,
+    "endMs": 61800,
+    "timestampMs": 61640,
+    "confidence": 0.998807
+  },
+  {
+    "text": " veas",
+    "startMs": 61800,
+    "endMs": 62080,
+    "timestampMs": 61780,
+    "confidence": 0.964023
+  },
+  {
+    "text": " una,",
+    "startMs": 62080,
+    "endMs": 62480,
+    "timestampMs": 62300,
+    "confidence": 0.995604
+  },
+  {
+    "text": " recuerda,",
+    "startMs": 62480,
+    "endMs": 63280,
+    "timestampMs": 62960,
+    "confidence": 0.982572
+  },
+  {
+    "text": " no",
+    "startMs": 63280,
+    "endMs": 63370,
+    "timestampMs": 63680,
+    "confidence": 0.976956
+  },
+  {
+    "text": " solo",
+    "startMs": 63370,
+    "endMs": 63670,
+    "timestampMs": 63900,
+    "confidence": 0.816145
+  },
+  {
+    "text": " hace",
+    "startMs": 63670,
+    "endMs": 63860,
+    "timestampMs": 64180,
+    "confidence": 0.589889
+  },
+  {
+    "text": " miel,",
+    "startMs": 63860,
+    "endMs": 64290,
+    "timestampMs": 64460,
+    "confidence": 0.995784
+  },
+  {
+    "text": " está",
+    "startMs": 64290,
+    "endMs": 64750,
+    "timestampMs": 65140,
+    "confidence": 0.878228
+  },
+  {
+    "text": " construyendo",
+    "startMs": 64750,
+    "endMs": 65520,
+    "timestampMs": 65600,
+    "confidence": 0.996462
+  },
+  {
+    "text": " el",
+    "startMs": 65520,
+    "endMs": 65660,
+    "timestampMs": 65980,
+    "confidence": 0.988286
+  },
+  {
+    "text": " mundo",
+    "startMs": 65660,
+    "endMs": 66160,
+    "timestampMs": 66200,
+    "confidence": 0.995473
+  },
+  {
+    "text": " a",
+    "startMs": 66160,
+    "endMs": 66210,
+    "timestampMs": 66400,
+    "confidence": 0.997196
+  },
+  {
+    "text": " tu",
+    "startMs": 66210,
+    "endMs": 66360,
+    "timestampMs": 66480,
+    "confidence": 0.993741
+  },
+  {
+    "text": " alrededor.",
+    "startMs": 66360,
+    "endMs": 66960,
+    "timestampMs": 66940,
+    "confidence": 0.998612
+  }
+]

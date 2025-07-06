@@ -23,10 +23,12 @@ import {
 
 const extractToTempAudioFile = (fileToTranscribe, tempOutFile) => {
   // Extracting audio from mp4 and save it as 16khz wav file
+  console.log(`Converting ${fileToTranscribe} to 16kHz WAV format...`);
   execSync(
-    `npx remotion ffmpeg -i "${fileToTranscribe}" -ar 16000 "${tempOutFile}" -y`,
+    `npx remotion ffmpeg -i "${fileToTranscribe}" -ar 16000 -ac 1 -sample_fmt s16 "${tempOutFile}" -y`,
     { stdio: ["ignore", "inherit"] },
   );
+  console.log(`Audio extracted to: ${tempOutFile}`);
 };
 
 const subFile = async (filePath, fileName, folder) => {
@@ -59,11 +61,14 @@ const subFile = async (filePath, fileName, folder) => {
 };
 
 const processVideo = async (fullPath, entry, directory) => {
+  // Handle both video and audio files
   if (
     !fullPath.endsWith(".mp4") &&
     !fullPath.endsWith(".webm") &&
     !fullPath.endsWith(".mkv") &&
-    !fullPath.endsWith(".mov")
+    !fullPath.endsWith(".mov") &&
+    !fullPath.endsWith(".wav") &&
+    !fullPath.endsWith(".mp3")
   ) {
     return;
   }
@@ -74,6 +79,8 @@ const processVideo = async (fullPath, entry, directory) => {
       .replace(/.mkv$/, ".json")
       .replace(/.mov$/, ".json")
       .replace(/.webm$/, ".json")
+      .replace(/.wav$/, ".json")
+      .replace(/.mp3$/, ".json")
       .replace("webcam", "subs"),
   );
   if (isTranscribed) {
@@ -84,12 +91,24 @@ const processVideo = async (fullPath, entry, directory) => {
     mkdirSync(`temp`);
     shouldRemoveTempDirectory = true;
   }
-  console.log("Extracting audio from file", entry);
+  console.log("Processing file", entry);
 
-  const tempWavFileName = entry.split(".")[0] + ".wav";
-  const tempOutFilePath = path.join(process.cwd(), `temp/${tempWavFileName}`);
+  let tempOutFilePath;
+  let tempWavFileName;
 
-  extractToTempAudioFile(fullPath, tempOutFilePath);
+  // If it's already a WAV file, we still need to ensure it's 16kHz
+  if (fullPath.endsWith(".wav")) {
+    tempWavFileName = "converted_" + entry;
+    tempOutFilePath = path.join(process.cwd(), `temp/${tempWavFileName}`);
+    console.log("Converting WAV file to 16kHz format...");
+    extractToTempAudioFile(fullPath, tempOutFilePath);
+  } else {
+    tempWavFileName = entry.split(".")[0] + ".wav";
+    tempOutFilePath = path.join(process.cwd(), `temp/${tempWavFileName}`);
+    console.log("Extracting audio from video file...");
+    extractToTempAudioFile(fullPath, tempOutFilePath);
+  }
+
   await subFile(
     tempOutFilePath,
     tempWavFileName,
