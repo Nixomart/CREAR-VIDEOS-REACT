@@ -106,16 +106,18 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
           const metadata = await getVideoMetadata(videoSrc);
           const durationInFrames = Math.round(metadata.durationInSeconds * fps);
           console.log(`📹 Video: ${videoSrc}`);
-          console.log(`⏱️  Duration: ${metadata.durationInSeconds} seconds`);
-          console.log(`🎬 Frames: ${durationInFrames} frames`);
+          console.log(`⏱️  Real Duration: ${metadata.durationInSeconds} seconds`);
+          console.log(`🎬 Real Frames: ${durationInFrames} frames`);
+          console.log(`➕ + Transition: ${transitionDuration} frames`);
+          console.log(`🎯 Total Frames: ${durationInFrames + transitionDuration} frames`);
           console.log(`🔢 FPS: ${fps}`);
           console.log('---');
           
-          durations.push(durationInFrames + transitionDuration); // Añadir duración de transición para superposición
+          durations.push(durationInFrames + transitionDuration); // Añadir transición para que coincida con el audio
         } catch (error) {
           console.warn(`Error getting metadata for ${videoSrc}:`, error);
           // Usar duración por defecto si no se puede obtener metadata
-          durations.push(120); // 4 segundos a 30fps como fallback
+          durations.push(120 + transitionDuration); // 4 segundos + transición como fallback
         }
       }
       
@@ -125,10 +127,10 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
     } catch (error) {
       console.error('Error fetching video metadata:', error);
       // Usar duraciones por defecto
-      setVideoDurations(src.map(() => 120));
+      setVideoDurations(src.map(() => 120 + transitionDuration));
       continueRender(metadataHandle);
     }
-  }, [src, fps, metadataHandle]);
+  }, [src, fps, metadataHandle, transitionDuration]);
 
   useEffect(() => {
     fetchSubtitles();
@@ -167,15 +169,28 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
       startFrames.push(nextVideoStart);
     }
     
-    console.log('🎬 Video start frames:', startFrames);
-    console.log('⏱️  Video durations:', videoDurations);
+    // Calcular duración total de la composición
+    const lastVideoIndex = videoDurations.length - 1;
+    const lastVideoStart = startFrames[lastVideoIndex];
+    const lastVideoDuration = videoDurations[lastVideoIndex];
+    const totalCompositionDuration = lastVideoStart + lastVideoDuration;
     
-    // Calcular y mostrar información útil
+    console.log('🎬 Video timing analysis:');
+    console.log('- Video start frames:', startFrames);
+    console.log('- Video durations (includes transition):', videoDurations);
+    console.log('- Total composition duration (frames):', totalCompositionDuration);
+    console.log('- Total composition duration (seconds):', (totalCompositionDuration / fps).toFixed(2));
+    
+    // Mostrar detalles de cada video
     startFrames.forEach((startFrame, index) => {
       const duration = videoDurations[index];
+      const realDuration = duration - transitionDuration;
       const endFrame = startFrame + duration;
       const durationSeconds = (duration / fps).toFixed(2);
-      console.log(`Video ${index + 1}: Start: ${startFrame}, End: ${endFrame}, Duration: ${durationSeconds}s`);
+      const realDurationSeconds = (realDuration / fps).toFixed(2);
+      const startSeconds = (startFrame / fps).toFixed(2);
+      const endSeconds = (endFrame / fps).toFixed(2);
+      console.log(`Video ${index + 1}: ${startSeconds}s-${endSeconds}s (${realDurationSeconds}s+${(transitionDuration/fps).toFixed(2)}s=${durationSeconds}s) [${startFrame}-${endFrame} frames]`);
     });
     
     return startFrames;
@@ -191,38 +206,38 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       {/* Mostrar información de auto-detección si está habilitada */}
-      {/* {autoDetect && videoDurations.length > 0 && (
+      {autoDetect && videoDurations.length > 0 && (
         <AbsoluteFill
           style={{
             height: "auto",
             width: "100%",
             backgroundColor: "rgba(0, 100, 0, 0.9)",
-            fontSize: 14,
-            padding: 10,
+            fontSize: 12,
+            padding: 8,
             top: 0,
             fontFamily: "monospace",
             color: "white",
             textAlign: "left",
             zIndex: 1000,
-            opacity: frame < 150 ? 1 : 0, // Mostrar los primeros 5 segundos
+            opacity: frame < 180 ? 1 : 0, // Mostrar los primeros 6 segundos
             transition: "opacity 0.5s",
           }}
         >
-          📁 Auto-detected: {src.length} videos, Audio: {audioSrc ? '✅' : '❌'}, Subs: {subtitlesJsonSrc ? '✅' : '❌'}<br/>
-          ⏱️ Current frame: {frame}<br/>
+          📁 Videos: {src.length}, Audio: {audioSrc ? '✅' : '❌'}, Subs: {subtitlesJsonSrc ? '✅' : '❌'} | Frame: {frame}<br/>
           {videoDurations.map((duration, i) => {
             const startFrame = videoStartFrames[i] || 0;
             const endFrame = startFrame + duration;
             const isActive = frame >= startFrame && frame <= endFrame;
             const durationSec = (duration / fps).toFixed(1);
+            const realDurationSec = ((duration - transitionDuration) / fps).toFixed(1);
             return (
-              <span key={i} style={{ color: isActive ? '#00ff00' : '#cccccc' }}>
-                Video {i + 1}: {startFrame}-{endFrame} ({durationSec}s) {isActive ? '◀️ ACTIVE' : ''}<br/>
+              <span key={i} style={{ color: isActive ? '#00ff00' : '#cccccc', fontSize: 11 }}>
+                V{i + 1}: {startFrame}-{endFrame} ({realDurationSec}s+{(transitionDuration/fps).toFixed(1)}s={durationSec}s) {isActive ? '▶️' : ''}<br/>
               </span>
             );
           })}
         </AbsoluteFill>
-      )} */}
+      )}
 
       {/* Mostrar indicador de carga si los metadatos no están listos */}
       {videoDurations.length === 0 && (
