@@ -5,6 +5,7 @@ import {
   captionedVideoSchema,
 } from "./CaptionedVideo";
 import { ContinuousVideo } from "./ContinuousVideo";
+import { continuousVideoSchema } from "./ContinuousVideo/schema";
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -14,7 +15,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ContinuousVideo"
         component={ContinuousVideo}
-        schema={undefined} // This schema defines the properties for the composition
+        schema={continuousVideoSchema}
         width={1080}
         height={1920}
         durationInFrames={1800} // Aproximadamente 60 segundos a 30fps para todos los videos
@@ -33,7 +34,7 @@ export const RemotionRoot: React.FC = () => {
             staticFile("videos/10_drone_shot_forest_canopy_sunrise_1751823930084.mp4"),
             staticFile("videos/11_person_watching_bee_respectfully_1751823938591.mp4"),
           ],
-          audioSrc: staticFile("audio/tts_1751823872736.wav"),
+          // audioSrc: staticFile("audio/tts_1751823872736.wav"), // Comentado temporalmente por problemas de formato
           subtitlesJsonSrc: staticFile("audio/converted_tts_1751823872736.json"),
           transitionDuration: 15, // Duración de la transición en frames (0.5 segundos a 30fps)
         }}

@@ -16,6 +16,7 @@ import {
 import { Caption, createTikTokStyleCaptions } from '@remotion/captions'
 import { loadFont } from '../load-font'
 import SubtitlePage from '../CaptionedVideo/SubtitlePage'
+import { ContinuousVideoProps } from './schema'
 
 const getFileExists = (file: string) => {
   const files = getStaticFiles();
@@ -48,16 +49,17 @@ const convertToCaption = (data: OriginalSubtitle[]): Caption[] => {
 // How many captions should be displayed at a time?
 const SWITCH_CAPTIONS_EVERY_MS = 1200;
 
-export const ContinuousVideo: React.FC<{
-  src: string[];
-  transitionDuration?: number;
-  audioSrc?: string;
-  subtitlesJsonSrc?: string;
-}> = ({ src, transitionDuration = 15, audioSrc, subtitlesJsonSrc }) => {
+export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({ 
+  src, 
+  transitionDuration = 15, 
+  audioSrc, 
+  subtitlesJsonSrc 
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const [subtitles, setSubtitles] = useState<Caption[]>([]);
   const [handle] = useState(() => delayRender());
+  const [audioError, setAudioError] = useState<string | null>(null);
 
   const fetchSubtitles = useCallback(async () => {
     if (!subtitlesJsonSrc) {
@@ -100,9 +102,55 @@ export const ContinuousVideo: React.FC<{
 
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
-      {/* Audio de fondo */}
-      {audioSrc && (
-        <Audio src={audioSrc} />
+      {/* Audio de fondo con manejo de errores */}
+      {audioSrc && getFileExists(audioSrc) && (
+        <Audio 
+          src={audioSrc}
+          onError={(e) => {
+            console.warn('Error loading audio:', e);
+            setAudioError('Failed to load audio file');
+          }}
+        />
+      )}
+      
+      {/* Mostrar error de audio si existe */}
+      {audioError && (
+        <AbsoluteFill
+          style={{
+            height: "auto",
+            width: "100%",
+            backgroundColor: "rgba(255, 0, 0, 0.7)",
+            fontSize: 20,
+            padding: 20,
+            top: 0,
+            fontFamily: "sans-serif",
+            color: "white",
+            textAlign: "center",
+            zIndex: 1000,
+          }}
+        >
+          Audio Error: {audioError}
+        </AbsoluteFill>
+      )}
+      
+      {/* Mostrar advertencia si el archivo de audio no existe */}
+      {audioSrc && !getFileExists(audioSrc) && (
+        <AbsoluteFill
+          style={{
+            height: "auto",
+            width: "100%",
+            backgroundColor: "rgba(255, 165, 0, 0.7)",
+            fontSize: 20,
+            padding: 20,
+            top: 0,
+            fontFamily: "sans-serif",
+            color: "white",
+            textAlign: "center",
+            zIndex: 1000,
+          }}
+        >
+          Audio file not found: {audioSrc}
+        </AbsoluteFill>
       )}
       
       {/* Videos con transiciones */}
