@@ -33,6 +33,8 @@ export const RemotionRoot: React.FC = () => {
             staticFile("videos/10_drone_shot_forest_canopy_sunrise_1751823930084.mp4"),
             staticFile("videos/11_person_watching_bee_respectfully_1751823938591.mp4"),
           ],
+          audioSrc: staticFile("audio/tts_1751823872736.wav"),
+          subtitlesJsonSrc: staticFile("audio/converted_tts_1751823872736.json"),
           transitionDuration: 15, // Duración de la transición en frames (0.5 segundos a 30fps)
         }}
       />
