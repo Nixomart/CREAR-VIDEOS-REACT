@@ -106,10 +106,10 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
       {audioSrc && getFileExists(audioSrc) && (
         <Audio 
           src={audioSrc}
-          onError={(e) => {
+          /* onError={(e) => {
             console.warn('Error loading audio:', e);
             setAudioError('Failed to load audio file');
-          }}
+          }} */
         />
       )}
       
@@ -203,6 +203,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
                   width: "100%",
                   height: "100%",
                 }}
+                muted
                 src={videoSrc}
               />
             </AbsoluteFill>
