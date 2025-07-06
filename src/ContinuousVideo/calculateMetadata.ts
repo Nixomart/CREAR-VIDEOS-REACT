@@ -41,17 +41,25 @@ export const calculateContinuousVideoMetadata = async ({ props }: { props: Conti
       }
     }
     
-    // Calcular duración total considerando las transiciones
+    // Calcular duración total considerando que los videos se superponen pero mantienen su duración completa
     const totalDuration = durations.reduce((total, duration, index) => {
       if (index === 0) {
+        // El primer video se reproduce completo
         return duration;
       }
-      // Cada video después del primero se superpone por la duración de transición
+      // Los siguientes videos se superponen por la duración de transición,
+      // pero siguen reproduciéndose completos, solo que empiezan antes
       return total + duration - transitionDuration;
     }, 0);
     
+    console.log('📊 Metadata calculation:');
+    console.log('- Video durations (frames):', durations);
+    console.log('- Transition duration (frames):', transitionDuration);
+    console.log('- Total duration (frames):', totalDuration);
+    console.log('- Total duration (seconds):', (totalDuration / fps).toFixed(2));
+    
     return {
-      durationInFrames: Math.max(totalDuration, 1800), // Mínimo 60 segundos
+      durationInFrames: Math.max(totalDuration, 300), // Mínimo 10 segundos
       fps,
       width: 1080,
       height: 1920,

@@ -78,12 +78,6 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
   const src = propSrc && propSrc.length > 0 ? propSrc : detectedFiles.videos;
   const audioSrc = propAudioSrc || detectedFiles.audio;
   const subtitlesJsonSrc = propSubtitlesJsonSrc || detectedFiles.subtitles;
-  console.log("DETECTED FILES:", {
-    videos: src,
-    audio: audioSrc,
-    subtitles: subtitlesJsonSrc,
-  });
-  
   const fetchSubtitles = useCallback(async () => {
     if (!subtitlesJsonSrc) {
       continueRender(handle);
@@ -111,7 +105,13 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
         try {
           const metadata = await getVideoMetadata(videoSrc);
           const durationInFrames = Math.round(metadata.durationInSeconds * fps);
-          durations.push(durationInFrames);
+          console.log(`📹 Video: ${videoSrc}`);
+          console.log(`⏱️  Duration: ${metadata.durationInSeconds} seconds`);
+          console.log(`🎬 Frames: ${durationInFrames} frames`);
+          console.log(`🔢 FPS: ${fps}`);
+          console.log('---');
+          
+          durations.push(durationInFrames + transitionDuration); // Añadir duración de transición para superposición
         } catch (error) {
           console.warn(`Error getting metadata for ${videoSrc}:`, error);
           // Usar duración por defecto si no se puede obtener metadata
@@ -119,6 +119,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
         }
       }
       
+      console.log('📊 All video durations (frames):', durations);
       setVideoDurations(durations);
       continueRender(metadataHandle);
     } catch (error) {
@@ -155,13 +156,30 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
     const startFrames: number[] = [0]; // El primer video siempre empieza en 0
     
     for (let i = 1; i < videoDurations.length; i++) {
-      // El siguiente video empieza donde termina el anterior, menos la duración de transición
-      const previousEnd = startFrames[i - 1] + videoDurations[i - 1];
-      startFrames.push(previousEnd - transitionDuration);
+      // El siguiente video empieza donde termina el anterior, PERO con superposición para transición
+      // La superposición NO debe acortar el video anterior, solo crear overlap
+      const previousStart = startFrames[i - 1];
+      const previousDuration = videoDurations[i - 1];
+      const previousEnd = previousStart + previousDuration;
+      
+      // El nuevo video empieza antes de que termine el anterior para crear transición
+      const nextVideoStart = previousEnd - transitionDuration;
+      startFrames.push(nextVideoStart);
     }
     
+    console.log('🎬 Video start frames:', startFrames);
+    console.log('⏱️  Video durations:', videoDurations);
+    
+    // Calcular y mostrar información útil
+    startFrames.forEach((startFrame, index) => {
+      const duration = videoDurations[index];
+      const endFrame = startFrame + duration;
+      const durationSeconds = (duration / fps).toFixed(2);
+      console.log(`Video ${index + 1}: Start: ${startFrame}, End: ${endFrame}, Duration: ${durationSeconds}s`);
+    });
+    
     return startFrames;
-  }, [videoDurations, transitionDuration]);
+  }, [videoDurations, transitionDuration, fps]);
 
   const { pages } = useMemo(() => {
     return createTikTokStyleCaptions({
@@ -173,29 +191,38 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       {/* Mostrar información de auto-detección si está habilitada */}
-      {autoDetect && (
+      {/* {autoDetect && videoDurations.length > 0 && (
         <AbsoluteFill
           style={{
             height: "auto",
             width: "100%",
-            backgroundColor: "rgba(0, 100, 0, 0.8)",
-            fontSize: 16,
+            backgroundColor: "rgba(0, 100, 0, 0.9)",
+            fontSize: 14,
             padding: 10,
             top: 0,
-            fontFamily: "sans-serif",
+            fontFamily: "monospace",
             color: "white",
             textAlign: "left",
             zIndex: 1000,
-            opacity: frame < 90 ? 1 : 0, // Mostrar solo los primeros 3 segundos
+            opacity: frame < 150 ? 1 : 0, // Mostrar los primeros 5 segundos
             transition: "opacity 0.5s",
           }}
         >
-          📁 Auto-detected files:<br/>
-          🎬 Videos: {src.length} files<br/>
-          🎵 Audio: {audioSrc ? '✅' : '❌'}<br/>
-          📝 Subtitles: {subtitlesJsonSrc ? '✅' : '❌'}
+          📁 Auto-detected: {src.length} videos, Audio: {audioSrc ? '✅' : '❌'}, Subs: {subtitlesJsonSrc ? '✅' : '❌'}<br/>
+          ⏱️ Current frame: {frame}<br/>
+          {videoDurations.map((duration, i) => {
+            const startFrame = videoStartFrames[i] || 0;
+            const endFrame = startFrame + duration;
+            const isActive = frame >= startFrame && frame <= endFrame;
+            const durationSec = (duration / fps).toFixed(1);
+            return (
+              <span key={i} style={{ color: isActive ? '#00ff00' : '#cccccc' }}>
+                Video {i + 1}: {startFrame}-{endFrame} ({durationSec}s) {isActive ? '◀️ ACTIVE' : ''}<br/>
+              </span>
+            );
+          })}
         </AbsoluteFill>
-      )}
+      )} */}
 
       {/* Mostrar indicador de carga si los metadatos no están listos */}
       {videoDurations.length === 0 && (
@@ -277,24 +304,26 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
         const videoDuration = videoDurations[index] || 120;
         
         // Calculate fade transitions
-        const fadeInStart = startFrame;
-        const fadeInEnd = startFrame + (index === 0 ? 0 : transitionDuration);
-        
         let opacity = 1;
         
-        // Only apply fade in for videos after the first one
-        if (index > 0 && frame >= fadeInStart && frame <= fadeInEnd) {
-          opacity = interpolate(frame, [fadeInStart, fadeInEnd], [0, 1], {
-            extrapolateLeft: 'clamp',
-            extrapolateRight: 'clamp',
-          });
+        // Solo aplicar fade in para videos después del primero
+        if (index > 0) {
+          const fadeInStart = startFrame;
+          const fadeInEnd = startFrame + transitionDuration;
+          
+          if (frame >= fadeInStart && frame <= fadeInEnd) {
+            opacity = interpolate(frame, [fadeInStart, fadeInEnd], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+            });
+          }
         }
         
-        // Apply fade out for all videos except the last one
+        // Solo aplicar fade out para videos que NO son el último
         if (index < src.length - 1) {
-          const nextVideoStart = videoStartFrames[index + 1] || startFrame + videoDuration;
-          const fadeOutStart = nextVideoStart;
-          const fadeOutEnd = nextVideoStart + transitionDuration;
+          const videoEnd = startFrame + videoDuration;
+          const fadeOutStart = videoEnd - transitionDuration;
+          const fadeOutEnd = videoEnd;
           
           if (frame >= fadeOutStart && frame <= fadeOutEnd) {
             opacity = interpolate(frame, [fadeOutStart, fadeOutEnd], [1, 0], {
@@ -308,7 +337,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
           <Sequence
             key={index}
             from={startFrame}
-            durationInFrames={videoDuration}
+            durationInFrames={videoDuration} // El video mantiene su duración COMPLETA
           >
             <AbsoluteFill
               style={{

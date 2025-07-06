@@ -36,11 +36,6 @@ export const autoDetectFiles = (): AutoDetectedFiles => {
     return src.startsWith('audio/') && 
            (src.endsWith('.json') || src.endsWith('.srt') || src.endsWith('.vtt'));
   });
-  console.log("Detected files:", {
-    videos: videoFiles,
-    audio: audioFile ? audioFile.name : undefined,
-    subtitles: subtitlesFile ? subtitlesFile.name : undefined,
-  });
   
   return {
     videos: videoFiles.map(src => staticFile(src)),
