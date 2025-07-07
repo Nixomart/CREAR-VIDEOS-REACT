@@ -15,11 +15,13 @@ import { MemeText } from "./MemeText";
 
 export type MemeCaption = {
   text: string;
+  style?: "facebook" | "tiktok" | "contrast" | number; // Estilo opcional: nombre o índice
 };
 
 export type MemeData = {
   title: string;
   captions: MemeCaption[];
+  defaultStyle?: "facebook" | "tiktok" | "contrast" | number; // Estilo por defecto para todo el video
 };
 
 export const memeVideoSchema = z.object({
@@ -88,7 +90,7 @@ export const MemeVideo: React.FC<{
       </AbsoluteFill>
       
       {/* Overlay de texto */}
-      <MemeText captions={memeData.captions} />
+      <MemeText captions={memeData.captions} defaultStyle={memeData.defaultStyle} />
     </AbsoluteFill>
   );
 };
