@@ -22,6 +22,10 @@ export type MemeData = {
   title: string;
   captions: MemeCaption[];
   defaultStyle?: "facebook" | "tiktok" | "contrast" | number; // Estilo por defecto para todo el video
+  "postion-text"?: { // Nota: mantener el typo del JSON original
+    x: number;
+    y: number;
+  };
 };
 
 export const memeVideoSchema = z.object({
@@ -90,7 +94,11 @@ export const MemeVideo: React.FC<{
       </AbsoluteFill>
       
       {/* Overlay de texto */}
-      <MemeText captions={memeData.captions} defaultStyle={memeData.defaultStyle} />
+      <MemeText 
+        captions={memeData.captions} 
+        defaultStyle={memeData.defaultStyle}
+        position={memeData["postion-text"]}
+      />
     </AbsoluteFill>
   );
 };

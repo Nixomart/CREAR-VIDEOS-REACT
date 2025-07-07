@@ -71,9 +71,20 @@ const getTextStyle = (index: number, customStyle?: "facebook" | "tiktok" | "cont
 export const MemeText: React.FC<{
   captions: MemeCaption[];
   defaultStyle?: "facebook" | "tiktok" | "contrast" | number;
-}> = ({ captions, defaultStyle }) => {
+  position?: { x: number; y: number };
+}> = ({ captions, defaultStyle, position }) => {
+  // Crear el estilo del contenedor basado en si hay posición personalizada
+  const containerStyle: React.CSSProperties = position 
+    ? {
+        position: "absolute",
+        left: position.x,
+        top: position.y,
+        transform: "translate(-50%, -50%)", // Centrar el texto en las coordenadas
+      }
+    : container;
+
   return (
-    <AbsoluteFill style={container}>
+    <AbsoluteFill style={position ? {} : containerStyle}>
       {captions.map((caption, index) => {
         const fittedText = fitText({
           fontFamily,
@@ -96,6 +107,12 @@ export const MemeText: React.FC<{
               lineHeight: 1.1,
               fontWeight: "bold",
               paintOrder: "stroke",
+              ...(position ? {
+                position: "absolute",
+                left: position.x,
+                top: position.y + (index * 60), // Espaciar verticalmente si hay múltiples captions
+                transform: "translate(-50%, -50%)",
+              } : {}),
               ...textStyle, // Aplicar el estilo dinámico
             }}
           >
