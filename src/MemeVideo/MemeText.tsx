@@ -8,14 +8,14 @@ const fontFamily = TheBoldFont;
 
 const container: React.CSSProperties = {
   justifyContent: "center",
-  alignItems: "flex-start", // Cambiar a la izquierda
+  alignItems: "center", // Cambiar de flex-start a center para centrar
   display: "flex",
   flexDirection: "column",
-  gap: 40,
+  gap: 50, // Aumentar gap de 40 a 50 por el texto más grande
   padding: 40,
 };
 
-const DESIRED_FONT_SIZE = 80;
+const DESIRED_FONT_SIZE = 200; // Aumentado de 80 a 120
 
 // Diferentes estilos de texto para variar los videos
 type TextStyle = {
@@ -89,11 +89,11 @@ export const MemeText: React.FC<{
         const fittedText = fitText({
           fontFamily,
           text: caption.text,
-          withinWidth: 900, // Ancho máximo para el texto
+          withinWidth: 1000, // Aumentado de 900 a 1000 para textos más largos
           textTransform: "uppercase",
         });
 
-        const fontSize = Math.min(DESIRED_FONT_SIZE, fittedText.fontSize);
+        const fontSize = Math.min(DESIRED_FONT_SIZE, fittedText.fontSize + 20);
         const textStyle = getTextStyle(index, caption.style || defaultStyle);
 
         return (
@@ -103,14 +103,15 @@ export const MemeText: React.FC<{
               fontSize,
               fontFamily,
               textTransform: "uppercase",
-              textAlign: "left", // Alineación a la izquierda
+              textAlign: "center", // Cambiar a centrado
               lineHeight: 1.1,
               fontWeight: "bold",
               paintOrder: "stroke",
+              maxWidth: "1000px", // Ancho máximo para textos largos
               ...(position ? {
                 position: "absolute",
                 left: position.x,
-                top: position.y + (index * 60), // Espaciar verticalmente si hay múltiples captions
+                top: position.y + (index * 80), // Aumentar espaciado de 60 a 80px por el texto más grande
                 transform: "translate(-50%, -50%)",
               } : {}),
               ...textStyle, // Aplicar el estilo dinámico
