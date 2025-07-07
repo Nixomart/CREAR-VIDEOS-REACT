@@ -91,3 +91,33 @@ export const useAutoDetectedFiles = (patterns?: {
 }) => {
   return autoDetectFilesWithPatterns(patterns);
 };
+
+/**
+ * Detecta automáticamente archivos de video y JSON en la carpeta meme/
+ */
+export interface AutoDetectedMemeFiles {
+  videoSrc: string | undefined;
+  dataSrc: string | undefined;
+}
+
+export const autoDetectMemeFiles = (): AutoDetectedMemeFiles => {
+  const staticFiles = getStaticFiles();
+  
+  // Detectar video en la carpeta meme/
+  const videoFile = staticFiles.find(file => {
+    const src = file.name.toLowerCase();
+    return src.startsWith('meme/') && 
+           (src.endsWith('.mp4') || src.endsWith('.mov') || src.endsWith('.avi') || src.endsWith('.webm'));
+  });
+
+  // Detectar archivo JSON en la carpeta meme/
+  const dataFile = staticFiles.find(file => {
+    const src = file.name.toLowerCase();
+    return src.startsWith('meme/') && src.endsWith('.json');
+  });
+  
+  return {
+    videoSrc: videoFile ? staticFile(videoFile.name) : undefined,
+    dataSrc: dataFile ? staticFile(dataFile.name) : undefined,
+  };
+};

@@ -206,7 +206,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       {/* Mostrar información de auto-detección si está habilitada */}
-      {autoDetect && videoDurations.length > 0 && (
+     {/*  {autoDetect && videoDurations.length > 0 && (
         <AbsoluteFill
           style={{
             height: "auto",
@@ -237,7 +237,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
             );
           })}
         </AbsoluteFill>
-      )}
+      )} */}
 
       {/* Mostrar indicador de carga si los metadatos no están listos */}
       {videoDurations.length === 0 && (

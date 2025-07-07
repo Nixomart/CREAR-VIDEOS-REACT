@@ -2,12 +2,35 @@ import { Composition } from "remotion";
 import { ContinuousVideo } from "./ContinuousVideo";
 import { continuousVideoSchema } from "./ContinuousVideo/schema";
 import { calculateContinuousVideoMetadata } from "./ContinuousVideo/calculateMetadata";
+import { MemeVideo, memeVideoSchema, calculateMemeVideoMetadata } from "./MemeVideo";
+import { autoDetectMemeFiles } from "./utils/autoDetectFiles";
 
 // Each <Composition> is an entry in the sidebar!
 
 export const RemotionRoot: React.FC = () => {
+  // Auto-detectar archivos de meme
+  const memeFiles = autoDetectMemeFiles();
+  
   return (
     <>
+      {/* Composición para videos de meme */}
+      {memeFiles.videoSrc && memeFiles.dataSrc && (
+        <Composition
+          id="MemeVideo"
+          component={MemeVideo}
+          schema={memeVideoSchema}
+          calculateMetadata={calculateMemeVideoMetadata}
+          width={1080}
+          height={1920}
+          durationInFrames={900} // Duración por defecto, se calculará dinámicamente
+          fps={30}
+          defaultProps={{
+            videoSrc: memeFiles.videoSrc,
+            dataSrc: memeFiles.dataSrc,
+          }}
+        />
+      )}
+    
       <Composition
         id="ContinuousVideo"
         component={ContinuousVideo}
