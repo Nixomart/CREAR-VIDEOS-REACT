@@ -31,7 +31,7 @@ const textStyles: TextStyle[] = [
   {
     color: "black",
     backgroundColor: "white",
-    padding: "8px 16px",
+    padding: "12px 24px", // Más padding vertical, menos horizontal
     borderRadius: "8px",
   },
   // Estilo 2: Texto amarillo con borde negro (TikTok style)
@@ -47,11 +47,14 @@ const textStyles: TextStyle[] = [
 ];
 
 // Función para seleccionar un estilo basado en el índice del caption o estilo especificado
-const getTextStyle = (index: number, customStyle?: "facebook" | "tiktok" | "contrast" | number): TextStyle => {
+const getTextStyle = (
+  index: number,
+  customStyle?: "facebook" | "tiktok" | "contrast" | number,
+): TextStyle => {
   if (typeof customStyle === "number") {
     return textStyles[customStyle % textStyles.length];
   }
-  
+
   if (typeof customStyle === "string") {
     switch (customStyle) {
       case "facebook":
@@ -64,7 +67,7 @@ const getTextStyle = (index: number, customStyle?: "facebook" | "tiktok" | "cont
         return textStyles[index % textStyles.length];
     }
   }
-  
+
   return textStyles[index % textStyles.length];
 };
 
@@ -74,7 +77,7 @@ export const MemeText: React.FC<{
   position?: { x: number; y: number };
 }> = ({ captions, defaultStyle, position }) => {
   // Crear el estilo del contenedor basado en si hay posición personalizada
-  const containerStyle: React.CSSProperties = position 
+  const containerStyle: React.CSSProperties = position
     ? {
         position: "absolute",
         left: position.x,
@@ -83,44 +86,118 @@ export const MemeText: React.FC<{
       }
     : container;
 
+  // Calcular información de cada caption para posicionamiento dinámico
+  const captionInfo = captions.map((caption, index) => {
+    const fittedText = fitText({
+      fontFamily,
+      text: caption.text,
+      withinWidth: 1000, // Ancho máximo para textos largos
+      textTransform: "uppercase",
+    });
+
+    const fontSize = Math.min(
+      DESIRED_FONT_SIZE,
+      fittedText.fontSize + captions.length >= 1 ? 60 : 20,
+    );
+    const textStyle = getTextStyle(index, caption.style || defaultStyle);
+
+    // Calcular altura aproximada del texto basada en el fontSize y número de líneas
+    const lineHeight =  1.1;
+    const estimatedLines = Math.ceil(
+      caption.text.length / (1000 / (fontSize * 0.6)),
+    ); // Estimación rough
+    const textHeight = fontSize * lineHeight * estimatedLines;
+
+    // Agregar padding extra si tiene backgroundColor (estilo Facebook)
+    const extraHeight = textStyle.backgroundColor ? 0 : 16; // 16px de padding + margen extra
+
+    return {
+      caption,
+      fontSize,
+      textStyle,
+      height: textHeight + extraHeight,
+    };
+  });
+
+  // Detectar si todos los textos usan estilo Facebook
+  const allFacebookStyle = captionInfo.every(
+    (info) => info.textStyle.backgroundColor === "white",
+  );
+
+  // Calcular posiciones Y dinámicamente
+  let currentY = position ? position.y : 0;
+  const positions = captionInfo.map((info, index) => {
+    if (index === 0) {
+      // El primer elemento se centra en la posición original
+      const y = position
+        ? /* allFacebookStyle  ?  currentY -
+          getTotalHeight(captionInfo, allFacebookStyle) / 2 +
+          info.height / 2 - 150 : */ currentY -
+          getTotalHeight(captionInfo, allFacebookStyle) / 2 +
+          info.height / 2 
+        : currentY;
+      currentY = y + info.height / 2;
+      return y;
+    } else {
+      // Los siguientes elementos se posicionan después del anterior
+      // Si es estilo Facebook, reducir el gap a 2px para que el fondo sea continuo
+      const gap = allFacebookStyle ? -50 : 20;
+      const y =
+        currentY + captionInfo[index - 1].height / 2 + info.height / 2 + gap;
+      currentY =  y;
+      return y;
+    }
+  });
+
   return (
     <AbsoluteFill style={position ? {} : containerStyle}>
-      {captions.map((caption, index) => {
-        const fittedText = fitText({
-          fontFamily,
-          text: caption.text,
-          withinWidth: 1000, // Aumentado de 900 a 1000 para textos más largos
-          textTransform: "uppercase",
-        });
-
-        const fontSize = Math.min(DESIRED_FONT_SIZE, fittedText.fontSize + 20);
-        const textStyle = getTextStyle(index, caption.style || defaultStyle);
+      {captionInfo.map((info, index) => {
+        // Configuraciones específicas para estilo Facebook
+        const isFacebookStyle = info.textStyle.backgroundColor === "white";
+        const maxWidth = isFacebookStyle ? "1200px" : "1000px"; // Más ancho para Facebook
 
         return (
           <div
             key={index}
             style={{
-              fontSize,
+              fontSize: info.fontSize,
               fontFamily,
               textTransform: "uppercase",
-              textAlign: "center", // Cambiar a centrado
+              textAlign: "center",
               lineHeight: 1.1,
               fontWeight: "bold",
               paintOrder: "stroke",
-              maxWidth: "1000px", // Ancho máximo para textos largos
-              ...(position ? {
-                position: "absolute",
-                left: position.x,
-                top: position.y + (index * 80), // Aumentar espaciado de 60 a 80px por el texto más grande
-                transform: "translate(-50%, -50%)",
-              } : {}),
-              ...textStyle, // Aplicar el estilo dinámico
+              maxWidth,
+              width: isFacebookStyle ? "900px" : undefined, // Auto width para Facebook
+              ...(position
+                ? {
+                    position: "absolute",
+                    left: position.x,
+                    top: positions[index],
+                    transform: "translate(-50%, -50%)",
+                  }
+                : {}),
+              ...info.textStyle,
             }}
           >
-            {caption.text}
+            {info.caption.text}
           </div>
         );
       })}
     </AbsoluteFill>
   );
 };
+
+// Función auxiliar para calcular la altura total de todos los textos
+function getTotalHeight(
+  captionInfo: Array<{ height: number }>,
+  isFacebookStyle: boolean = false,
+): number {
+  const totalTextHeight = captionInfo.reduce(
+    (sum, info) => sum + info.height,
+    0,
+  );
+  const gap = isFacebookStyle ? 2 : 20; // Gap más pequeño para Facebook
+  const gaps = Math.max(0, captionInfo.length - 1) * gap;
+  return totalTextHeight + gaps;
+}

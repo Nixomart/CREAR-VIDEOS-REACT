@@ -17,6 +17,7 @@ import { getVideoMetadata } from '@remotion/media-utils'
 import { Caption, createTikTokStyleCaptions } from '@remotion/captions'
 import { loadFont } from '../load-font'
 import SubtitlePage from '../CaptionedVideo/SubtitlePage'
+import { SubtitleStyle, subtitleStyles } from '../CaptionedVideo/index'
 import { ContinuousVideoProps } from './schema'
 import { autoDetectFiles } from '../utils/autoDetectFiles'
 
@@ -51,6 +52,23 @@ const convertToCaption = (data: OriginalSubtitle[]): Caption[] => {
 // How many captions should be displayed at a time?
 const SWITCH_CAPTIONS_EVERY_MS = 1200;
 
+// Función para seleccionar un estilo aleatoriamente basado en el primer video del src
+const getContinuousVideoSubtitleStyle = (videoSources: string[]): SubtitleStyle => {
+  if (videoSources.length === 0) {
+    return subtitleStyles[0]; // Estilo por defecto
+  }
+  
+  // Usar el primer video como base para el hash
+  const firstVideoSrc = videoSources[0];
+  const hash = firstVideoSrc.split('').reduce((a, b) => {
+    a = ((a << 5) - a) + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+  
+  const index = Math.abs(hash) % subtitleStyles.length;
+  return subtitleStyles[index];
+};
+
 export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({ 
   src: propSrc, 
   transitionDuration = 15, 
@@ -78,6 +96,9 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
   const src = propSrc && propSrc.length > 0 ? propSrc : detectedFiles.videos;
   const audioSrc = propAudioSrc || detectedFiles.audio;
   const subtitlesJsonSrc = propSubtitlesJsonSrc || detectedFiles.subtitles;
+  
+  // Seleccionar el estilo de subtítulos una vez para todo el video
+  const subtitleStyle = useMemo(() => getContinuousVideoSubtitleStyle(src), [src]);
   const fetchSubtitles = useCallback(async () => {
     if (!subtitlesJsonSrc) {
       continueRender(handle);
@@ -392,7 +413,7 @@ export const ContinuousVideo: React.FC<ContinuousVideoProps> = ({
             from={subtitleStartFrame}
             durationInFrames={durationInFrames}
           >
-            <SubtitlePage key={index} page={page} />
+            <SubtitlePage key={index} page={page} subtitleStyle={subtitleStyle} />
           </Sequence>
         );
       })}

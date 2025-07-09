@@ -18,6 +18,49 @@ import { loadFont } from "../load-font";
 import { NoCaptionFile } from "./NoCaptionFile";
 import { Caption, createTikTokStyleCaptions } from "@remotion/captions";
 
+// Tipos para los estilos de subtítulos
+export type SubtitleStyle = {
+  baseColor: string;
+  highlightColor: string;
+  stroke: string;
+  showOnlyActive?: boolean;
+};
+
+export const subtitleStyles: SubtitleStyle[] = [
+  // Estilo 1: Original - Texto blanco con borde negro, highlighting verde
+  {
+    baseColor: "white",
+    highlightColor: "#39E508",
+    stroke: "20px black",
+  },
+  // Estilo 2: Texto amarillo con borde negro, aparece/desaparece según timing
+  {
+    baseColor: "yellow",
+    highlightColor: "yellow",
+    stroke: "20px black",
+    showOnlyActive: true,
+  },
+  // Estilo 3: Como el original pero con highlighting amarillo
+  {
+    baseColor: "white",
+    highlightColor: "yellow",
+    stroke: "20px black",
+  },
+];
+
+// Función para seleccionar un estilo aleatoriamente basado en el src del video
+const getVideoSubtitleStyle = (src: string): SubtitleStyle => {
+  const hash = src
+    .split("")
+    .reduce((a, b) => {
+      a = (a << 5) - a + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+
+  const index = Math.abs(hash) % subtitleStyles.length;
+  return subtitleStyles[index];
+};
+
 export type SubtitleProp = {
   startInSeconds: number;
   text: string;
@@ -59,6 +102,9 @@ export const CaptionedVideo: React.FC<{
   const [subtitles, setSubtitles] = useState<Caption[]>([]);
   const [handle] = useState(() => delayRender());
   const { fps } = useVideoConfig();
+
+  // Seleccionar el estilo una vez para todo el video
+  const videoStyle = useMemo(() => getVideoSubtitleStyle(src), [src]);
 
   const subtitlesFile = src
     .replace(/.mp4$/, ".json")
@@ -125,7 +171,7 @@ export const CaptionedVideo: React.FC<{
             from={subtitleStartFrame}
             durationInFrames={durationInFrames}
           >
-            <SubtitlePage key={index} page={page} />;
+            <SubtitlePage key={index} page={page} subtitleStyle={videoStyle} />;
           </Sequence>
         );
       })}
